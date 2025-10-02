@@ -1,0 +1,22 @@
+{
+  "name": "express",
+  "version": "1.0.0",
+  "description": "ejemplo basico express",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IFCD0022-CIFO-Violeta-2025/express.git"
+  },
+  "author": "CIFO Violeta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IFCD0022-CIFO-Violeta-2025/express/issues"
+  },
+  "homepage": "https://github.com/IFCD0022-CIFO-Violeta-2025/express#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
