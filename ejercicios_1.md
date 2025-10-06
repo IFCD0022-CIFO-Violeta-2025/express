@@ -60,7 +60,6 @@ Ejemplo: GET `/buscar?categoria=libros&precio_max=50` -> `{"mensaje": "Buscando 
 ## Ejercicio 8: Middleware Personalizado
 Crea un middleware que registre en consola la fecha, el metodo HTTP y la URL de cada peticion que llegue al servidor. Aplicalo a todas las rutas usando `api.use()`.
 
----
 
 ## Ejercicio 9: Cliente con Fetch GET
 Crea un archivo cliente JavaScript que utilice `fetch()` para hacer una peticion GET a `http://localhost:3000/usuarios` y muestre la respuesta en la consola.
