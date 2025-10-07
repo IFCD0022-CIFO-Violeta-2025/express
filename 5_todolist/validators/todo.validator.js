@@ -1,0 +1,20 @@
+const Joi = require('joi');
+
+const createTODOSchema = Joi.object({
+    title: Joi.string()
+        .min(3)
+        .max(100)
+        .required()
+        .messages({
+            "string.empty": "El título no puede estar vacío",
+            "string.min": "El título ha de tener mas de 3 caract.",
+            "string.max": "ha de tener menos de 100 caract."
+        })
+});
+
+module.exports = {
+    createTODOSchema
+}
+
+// TODO: 
+// validar todos los params de las Todos
