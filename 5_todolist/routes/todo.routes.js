@@ -17,7 +17,7 @@ router.get("/todos", todoController.getAllTodos)
  * @access Public
 */
 
-router.post("/todos", todoController.createTodo)
+router.post("/todo", todoController.createTodo)
 
 
 // TODO: 

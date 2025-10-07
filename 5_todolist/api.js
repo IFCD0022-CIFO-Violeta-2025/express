@@ -5,6 +5,7 @@ const { notFound } = require("./middlewares/error.middleware");
 
 const api = express();
 // middleware config
+api.use(express.json());
 api.use("/api/v1", todoRoutes);
 api.use(notFound);
 

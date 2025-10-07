@@ -36,7 +36,6 @@ function getAllTodos(req, res) {
  * GET /api/v1/todos?completed=true&priority=high
 */
 function createTodo(req, res) {
-
     try {
         // validacion con Joi
         const { error } = createTODOSchema.validate(req.body);
@@ -48,6 +47,8 @@ function createTodo(req, res) {
             });
         }
 
+
+
         const newTodo = todoModel.create(req.body)
 
         res.status(201).json({
@@ -58,7 +59,7 @@ function createTodo(req, res) {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Error al obtener las tareas",
+            message: "Error al crear la tareas",
             error: error.message
         });
     }
@@ -70,7 +71,7 @@ function createTodo(req, res) {
 // deleteTodo()
 // getStats
 
-module.export = {
+module.exports = {
     getAllTodos,
     createTodo
 }
