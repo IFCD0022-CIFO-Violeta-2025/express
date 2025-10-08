@@ -99,6 +99,47 @@ function deleteById(id){
  *   - byPriority: { low: X, medium: Y, high: Z }
  */
 // TODO: Implementar getStats()
+function getStats(){
+    const completed = todosDB.reduce((count, todo)=>{
+        if (todo.completed){
+            return count +1;
+        } else {
+            return count;
+        }
+    },0)
+
+    const pending = todosDB.reduce((count, todo)=>{
+        if (!todo.completed){
+            return count +1;
+        } else {
+            return count;
+        }
+    },0)
+
+    let l = 0, m = 0, h = 0;
+
+    todosDB.forEach(todo => {
+        switch(todo.priority){
+            case 'low':
+                l ++;
+                break;
+            case 'medium':
+                m++;
+                break;
+            case 'high':
+                h++
+                break;        
+        }
+    })
+    const priority = {low: l, medium: m, high: h};
+
+    const estadisticas = {
+        completed: completed,
+        pending: pending,
+        byPriority: priority
+    }
+    return estadisticas;
+}
 
 module.exports = {
     getAll,
