@@ -10,7 +10,23 @@ const createTODOSchema = Joi.object({
             "string.min": "El título ha de tener mas de 3 caract.",
             "string.max": "ha de tener menos de 100 caract."
         }),
+
+    completed: Joi.boolean()
+        .required()
+        .messages({}),
+
     priority: Joi.string()
+        .valid('low', 'medium', 'high')
+        .required()
+        .messages({}),
+
+    createdAt: Joi.string()
+        .required()
+        .messages({}),
+
+    updateAt: Joi.string()
+        .required()
+        .messages({}),
 });
 
 module.exports = {
