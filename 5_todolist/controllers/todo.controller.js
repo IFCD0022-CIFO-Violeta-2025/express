@@ -73,7 +73,7 @@ function createTodo(req, res) {
 // TODO: Implementar getTodoById
 function getTodoById(req, res){
 try {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
     
         const todo = todoModel.getById(id);
         res.status(200).json({
@@ -99,7 +99,7 @@ try {
 function updateTodo(req, res){
     try {
          
-        const todo = todoModel.update(req.params.id, req.body);
+        const todo = todoModel.update(parseInt(req.params.id), req.body);
         res.status(201).json({
             success: true,
             message: "Tarea actualizada",
@@ -123,7 +123,7 @@ function updateTodo(req, res){
 function deleteTodo(req, res){
      try {
          
-        const deleted = todoModel.deleteById(req.params.id);
+        const deleted = todoModel.deleteById(parseInt(req.params.id));
         res.status(200).json({
             success: true,
             message: "Tarea eliminada",
