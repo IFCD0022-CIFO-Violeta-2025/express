@@ -1,5 +1,5 @@
 let todosDB = []; // sumulacion database
-let currentId = 0;
+let currentId = 1;
 
 /**
  * Obtiene todas las tareas
@@ -10,8 +10,13 @@ let currentId = 0;
 function getAll(filters = {}) {
     let result = [...todosDB];
     // filtrar por estado completado
-    if (filters.completed)
-        result.filter(todo => todo.completed === filters.completed);
+    if (filters.completed !== undefined) {
+        const completedBool =
+            typeof filters.completed === "string"
+                ? filters.completed === "true"
+                : Boolean(filters.completed);
+        result = result.filter(todo => todo.completed === completedBool);
+    }
     // filtrar por prioridad
     if (filters.priority)
         result = result.filter(todo => todo.priority === filters.priority);
@@ -43,7 +48,11 @@ function create(todoDATA) {
  * @params {number} id - ID de la tarea
  * @returns {Object|null} Tarea encontrada o null
  */
-// TODO: Implementar getById(id)
+function getById(id) {
+    const numericId = Number(id);
+    if (Number.isNaN(numericId)) return null;
+    return todosDB.find(todo => todo.id === numericId) || null;
+}
 
 /**
  * Actualizar una tarea existente
@@ -51,14 +60,36 @@ function create(todoDATA) {
  * @params {Object} updateData - Datos a actualizar
  * @returns {Object|null} Tarea actualizada o null
  */
-// TODO: Implementar update(id, updateData)
+function update(id, updateData) {
+    const numericId = Number(id);
+    if (Number.isNaN(numericId)) return null;
+    const index = todosDB.findIndex(todo => todo.id === numericId);
+    if (index === -1) return null;
+
+    const current = todosDB[index];
+    const updated = {
+        ...current,
+        title: updateData.title !== undefined ? updateData.title : current.title,
+        completed: updateData.completed !== undefined ? updateData.completed : current.completed,
+        priority: updateData.priority !== undefined ? updateData.priority : current.priority,
+        updatedAt: new Date().toISOString(),
+    };
+    todosDB[index] = updated;
+    return updated;
+}
 
 /**
  * Eliminar una tarea por ID
  * @params {number} id - ID de la tarea
  * @returns {boolean} true si se eliminó, false si no se encontró
  */
-// TODO: Implementar deleteById(id)
+function deleteById(id) {
+    const numericId = Number(id);
+    if (Number.isNaN(numericId)) return false;
+    const initialLength = todosDB.length;
+    todosDB = todosDB.filter(todo => todo.id !== numericId);
+    return todosDB.length < initialLength;
+}
 
 /**
  * Obtener estadísticas de las tareas
@@ -67,10 +98,22 @@ function create(todoDATA) {
  *   - pending: cantidad de tareas pendientes
  *   - byPriority: { low: X, medium: Y, high: Z }
  */
-// TODO: Implementar getStats()
+function getStats() {
+    const completed = todosDB.filter(t => t.completed).length;
+    const pending = todosDB.length - completed;
+    const byPriority = {
+        low: todosDB.filter(t => t.priority === "low").length,
+        medium: todosDB.filter(t => t.priority === "medium").length,
+        high: todosDB.filter(t => t.priority === "high").length,
+    };
+    return { completed, pending, byPriority };
+}
 
 module.exports = {
     getAll,
-    create
-    // TODO: Exportar getById, update, deleteById, getStats
+    create,
+    getById,
+    update,
+    deleteById,
+    getStats
 }
