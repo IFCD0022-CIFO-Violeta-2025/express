@@ -29,7 +29,7 @@ function create(todoDATA) {
         id: currentId++,
         title: todoDATA.title,
         completed: todoDATA.completed || false, // valor defecto: false
-        priority: todoDATA.completed || "medium", // valor defecto: "medium"
+        priority: todoDATA.priority || "medium", // valor defecto: "medium"
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     }
@@ -44,6 +44,10 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
+function getById(id) {
+    const tareaById = todosDB.find(tareaById => tareaById.id === id);
+    return tareaById || null;
+}
 
 /**
  * Actualizar una tarea existente
@@ -52,6 +56,18 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea actualizada o null
  */
 // TODO: Implementar update(id, updateData)
+function update(id, updateData) {
+    const index = todosDB.findIndex(tarea => tarea.id === id);
+    if (index === -1) return null;  // Tarea no encontrada  
+    const existingTodo = todosDB[index];
+    const updatedTodo = {
+        ...existingTodo,        
+        ...updateData,
+        updatedAt: new Date().toISOString(),
+    };
+    todosDB[index] = updatedTodo;
+    return updatedTodo;
+}   
 
 /**
  * Eliminar una tarea por ID
