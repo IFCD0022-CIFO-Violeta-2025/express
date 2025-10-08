@@ -96,6 +96,24 @@ try {
  * PUT /api/v1/todo/:id
  */
 // TODO: Implementar updateTodo
+function updateTodo(req, res){
+    try {
+         
+        const todo = todoModel.update(req.params.id, req.body);
+        res.status(200).json({
+            success: true,
+            message: "Tarea actualizada",
+            data: todo
+        })
+    
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al actualizar la tarea",
+            error: error.message
+        });
+    }
+}
 
 /**
  * Eliminar una tarea por ID
