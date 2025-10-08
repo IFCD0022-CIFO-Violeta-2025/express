@@ -165,6 +165,9 @@ function getStats(req, res){
 
 module.exports = {
     getAllTodos,
-    createTodo
-    // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
+    createTodo,
+    getTodoById, 
+    updateTodo, 
+    deleteTodo, 
+    getStats
 }
