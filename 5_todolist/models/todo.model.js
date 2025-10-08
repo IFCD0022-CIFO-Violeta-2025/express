@@ -82,6 +82,14 @@ function update(id, updateData){
  * @returns {boolean} true si se eliminó, false si no se encontró
  */
 // TODO: Implementar deleteById(id)
+function deleteById(id){
+    const index = todosDB.findIndex(todo => todo.id === id);
+    if(index !== -1){
+        todosDB.splice(index, 1);
+        return true;
+    }
+    return false;
+}
 
 /**
  * Obtener estadísticas de las tareas
