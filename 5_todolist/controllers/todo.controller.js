@@ -29,8 +29,6 @@ function getAllTodos(req, res) {
         });
     }
 }
-
-
 /**
  * Crear nueva tarea
  * GET /api/v1/todos?completed=true&priority=high
@@ -46,8 +44,6 @@ function createTodo(req, res) {
                 errors: error.details.map(error => error.message)
             });
         }
-
-
 
         const newTodo = todoModel.create(req.body)
 
@@ -66,6 +62,99 @@ function createTodo(req, res) {
 
 }
 
+function getOnlyOne(req, res){
+    try {
+        const id = req.params.id;
+        const todo = todoModel.getByID(id)
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB",
+            data: todo
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea",
+            error: error.message
+        });
+    }
+}
+
+// TODO: 
+// updateTodo()
+function updateTodo(req, res) {
+    try {
+    const { error } = createTODOSchema.validate(req.body);
+    if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validacion datos Todo fallida!",
+                errors: error.details.map(error => error.message)
+            });
+        }
+        const id = req.params.id;
+        const todoData =  req.body;
+        const todoUpdate = todoModel.update(id, todoData)
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB está cambiada",
+            data: todoUpdate
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al cambiar las tareas",
+            error: error.message
+        });
+    }
+}
+// deleteTodo()
+function deleteTodo(req, res){
+try {
+        const id = req.params.id;
+        const todoUpdated = todoModel.deleteTo(id)
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB",
+            data: todoUpdated
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea",
+            error: error.message
+        });
+    }
+}
+// getStats
+function getStatsTodo(req, res) {
+    try {
+        const todoStats = todoModel.getStats()
+        res.status(200).json({
+            success: true,
+            message: "Todos statistica",
+            data: todoStats
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la statistica",
+            error: error.message
+        });
+    }
+}
+
+module.exports = {
+    getAllTodos,
+    createTodo,
+    getOnlyOne,
+    updateTodo,
+    deleteTodo,
+    getStatsTodo
 /**
  * Obtener una tarea por ID
  * GET /api/v1/todo/:id

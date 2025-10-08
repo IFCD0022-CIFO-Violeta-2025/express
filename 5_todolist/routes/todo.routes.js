@@ -33,6 +33,15 @@ router.post("/todo", todoController.createTodo)
  */
 // TODO: router.put("/todo/:id", todoController.updateTodo)
 
+// TODO: 
+// get :id
+router.get("/:id", todoController.getOnlyOne)
+
+// put
+router.put("/edit/:id", todoController.updateTodo)
+
+// delete
+router.delete("/delete/:id", todoController.deleteTodo)
 /**
  * @route DELETE /api/v1/todo/:id
  * @desc: Eliminar una tarea por ID
@@ -47,5 +56,7 @@ router.post("/todo", todoController.createTodo)
  */
 // TODO: router.get("/todos/stats", todoController.getStats)
 
+// stats
+router.get("/stats", todoController.getStatsTodo)
 
 module.exports = router;
