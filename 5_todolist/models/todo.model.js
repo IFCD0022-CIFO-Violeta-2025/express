@@ -1,4 +1,44 @@
-let todosDB = []; // sumulacion database
+let todosDB = [{
+    id: 1,
+    title: "Comprar alimentos",
+    completed: false,
+    priority: "medium",
+    createdAt: "2024-09-01T10:15:30.000Z",
+    updatedAt: "2024-09-02T12:20:35.000Z",
+  },
+  {
+    id: 2,
+    title: "Hacer ejercicio",
+    completed: true,
+    priority: "high",
+    createdAt: "2024-08-25T08:00:00.000Z",
+    updatedAt: "2024-08-25T09:30:00.000Z",
+  },
+  {
+    id: 3,
+    title: "Leer un libro",
+    completed: false,
+    priority: "low",
+    createdAt: "2024-07-15T14:45:00.000Z",
+    updatedAt: "2024-07-20T16:00:00.000Z",
+  },
+  {
+    id: 4,
+    title: "Enviar correos",
+    completed: true,
+    priority: "medium",
+    createdAt: "2024-10-05T07:10:10.000Z",
+    updatedAt: "2024-10-06T08:15:15.000Z",
+  },
+  {
+    id: 5,
+    title: "Lavar el coche",
+    completed: false,
+    priority: "low",
+    createdAt: "2024-06-30T11:25:00.000Z",
+    updatedAt: "2024-07-01T12:30:00.000Z",
+  }]; // sumulacion database
+  
 let currentId = 0;
 
 /**
