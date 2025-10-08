@@ -71,6 +71,25 @@ function createTodo(req, res) {
  * GET /api/v1/todo/:id
  */
 // TODO: Implementar getTodoById
+function getTodoById(req, res){
+try {
+        const id = req.params.id;
+    
+        const todo = todoModel.getById(id);
+        res.status(200).json({
+            success: true,
+            message: "Tarea por ID",
+            data: todo
+        })
+    
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea",
+            error: error.message
+        });
+    }
+}
 
 /**
  * Actualizar una tarea por ID
