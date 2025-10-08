@@ -57,16 +57,23 @@ function getById(id) {
  */
 // TODO: Implementar update(id, updateData)
 function update(id, updateData) {
-    const index = todosDB.findIndex(tarea => tarea.id === id);
-    if (index === -1) return null;  // Tarea no encontrada  
+    const index = todosDB.findIndex(tarea => tarea.id === Number(id));
+    if (index === -1) return null;  // No task found  
     const existingTodo = todosDB[index];
-    const updatedTodo = {
-        ...existingTodo,        
+    existingTodo.title = updateData.title || existingTodo.title;
+    existingTodo.priority = updateData.priority || existingTodo.priority;
+    existingTodo.completed = (updateData.completed !== undefined) ? updateData.completed : existingTodo.completed;
+    
+    /*const updatedTodo = {
+        ...existingTodo,
         ...updateData,
         updatedAt: new Date().toISOString(),
-    };
-    todosDB[index] = updatedTodo;
-    return updatedTodo;
+    };*/
+    // todosDB[index] = updatedTodo;
+    // return updatedTodo;
+
+    todosDB[index] = existingTodo;
+    return existingTodo;
 }   
 
 /**
@@ -87,6 +94,8 @@ function update(id, updateData) {
 
 module.exports = {
     getAll,
-    create
+    create,
+    getById,
+    update
     // TODO: Exportar getById, update, deleteById, getStats
 }

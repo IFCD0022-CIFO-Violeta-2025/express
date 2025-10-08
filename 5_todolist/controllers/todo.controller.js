@@ -1,5 +1,5 @@
 const todoModel = require("../models/todo.model");
-const { createTODOSchema } = require("../validators/todo.validator");
+const { createTODOSchema, updateTODOSchema } = require("../validators/todo.validator");
 
 /**
  * Obtiene todas las tareas
@@ -72,11 +72,63 @@ function createTodo(req, res) {
  */
 // TODO: Implementar getTodoById
 
+function getTodoById(req, res) {
+    try {
+        const taskId = parseInt(req.params.id);
+        const taskById = todoModel.getById(taskId);
+
+        res.status(200).json({
+            success: true,
+            message: "Tarea encontrada con Id:"+taskId+" en la DB",
+            data: taskById
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea por Id:"+req.params.id,
+            error: error.message
+        });
+    }
+}
+
+
 /**
  * Actualizar una tarea por ID
  * PUT /api/v1/todo/:id
  */
 // TODO: Implementar updateTodo
+
+function updateTodo(req, res) {
+    try {
+        // validacion con Joi
+        const { error } = updateTODOSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validacion datos Todo fallida!",
+                errors: error.details.map(error => error.message)
+            });
+        }
+
+
+
+        const updatedTodo = todoModel.update(req.params.id, req.body)
+
+        res.status(201).json({
+            success: true,
+            message: "Tarea Actualizada correctamente",
+            data: updatedTodo
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al actualizar la tarea",
+            error: error.message
+        });
+    }
+
+}
 
 /**
  * Eliminar una tarea por ID
@@ -93,6 +145,8 @@ function createTodo(req, res) {
 
 module.exports = {
     getAllTodos,
-    createTodo
+    createTodo,
+    getTodoById,
+    updateTodo
     // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
 }

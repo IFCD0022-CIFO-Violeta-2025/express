@@ -24,14 +24,16 @@ router.post("/todo", todoController.createTodo)
  * @desc: Obtener una tarea por ID
  * @access Public
  */
-// TODO: router.get("/todo/:id", todoController.getTodoById)
+// TODO: 
+router.get("/todo/:id", todoController.getTodoById)
 
 /**
  * @route PUT /api/v1/todo/:id
  * @desc: Actualizar una tarea por ID
  * @access Public
  */
-// TODO: router.put("/todo/:id", todoController.updateTodo)
+// TODO: 
+router.put("/todo/:id", todoController.updateTodo)
 
 /**
  * @route DELETE /api/v1/todo/:id
