@@ -44,6 +44,13 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
+function getById(id){
+    const todo = todoDATA.find(todo => todo.id === id);
+    if(todo){
+        return todo;
+    }
+    return null;  
+}
 
 /**
  * Actualizar una tarea existente
