@@ -19,6 +19,19 @@ router.get("/todos", todoController.getAllTodos)
 
 router.post("/todo", todoController.createTodo)
 
+/**
+ * @route GET /api/v1/todo/:id
+ * @desc: Obtener una tarea por ID
+ * @access Public
+ */
+// TODO: router.get("/todo/:id", todoController.getTodoById)
+
+/**
+ * @route PUT /api/v1/todo/:id
+ * @desc: Actualizar una tarea por ID
+ * @access Public
+ */
+// TODO: router.put("/todo/:id", todoController.updateTodo)
 
 // TODO: 
 // get :id
@@ -29,6 +42,19 @@ router.put("/edit/:id", todoController.updateTodo)
 
 // delete
 router.delete("/delete/:id", todoController.deleteTodo)
+/**
+ * @route DELETE /api/v1/todo/:id
+ * @desc: Eliminar una tarea por ID
+ * @access Public
+ */
+// TODO: router.delete("/todo/:id", todoController.deleteTodo)
+
+/**
+ * @route GET /api/v1/todos/stats
+ * @desc: Obtener estadísticas de las tareas
+ * @access Public
+ */
+// TODO: router.get("/todos/stats", todoController.getStats)
 
 // stats
 router.get("/stats", todoController.getStatsTodo)
