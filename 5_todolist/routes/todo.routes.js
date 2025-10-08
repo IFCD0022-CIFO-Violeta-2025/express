@@ -22,7 +22,11 @@ router.post("/todo", todoController.createTodo)
 
 // TODO: 
 // get :id
+router.get("/:id", todoController.getOnlyOne)
+
 // put
+router.put("/edit/:id", todoController.updateTodo)
+
 // delete
 // stats
 

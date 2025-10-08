@@ -47,8 +47,6 @@ function createTodo(req, res) {
             });
         }
 
-
-
         const newTodo = todoModel.create(req.body)
 
         res.status(201).json({
@@ -66,12 +64,63 @@ function createTodo(req, res) {
 
 }
 
+function getOnlyOne(req, res){
+    try {
+
+        const id = req.params.id;
+        const todo = todoModel.getByID(id)
+        
+
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB",
+            data: todo
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea",
+            error: error.message
+        });
+    }
+}
+
 // TODO: 
 // updateTodo()
+function updateTodo(req, res) {
+    try {
+    const { error } = createTODOSchema.validate(req.body);
+    if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validacion datos Todo fallida!",
+                errors: error.details.map(error => error.message)
+            });
+        }
+        const id = req.params.id;
+        const todoData =  req.body;
+        const todoUpdate = todoModel.update(id, todoData)
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB está cambiada",
+            data: todoUpdate
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al cambiar las tareas",
+            error: error.message
+        });
+    }
+}
 // deleteTodo()
 // getStats
 
 module.exports = {
     getAllTodos,
-    createTodo
+    createTodo,
+    getOnlyOne,
+    updateTodo
 }
