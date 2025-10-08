@@ -145,6 +145,23 @@ function deleteTodo(req, res){
  * Debe retornar: cantidad de tareas completadas/no completadas y cantidad por prioridad (low, medium, high)
  */
 // TODO: Implementar getStats
+function getStats(req, res){
+     try {    
+        const stats = todoModel.getStats();
+        res.status(200).json({
+            success: true,
+            message: "Estadistica de las tareas",
+            data: stats
+        })
+    
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener las estadisticas",
+            error: error.message
+        });
+    }
+}
 
 module.exports = {
     getAllTodos,
