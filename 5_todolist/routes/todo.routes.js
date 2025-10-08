@@ -28,6 +28,8 @@ router.get("/:id", todoController.getOnlyOne)
 router.put("/edit/:id", todoController.updateTodo)
 
 // delete
+router.delete("/delete/:id", todoController.deleteTodo)
+
 // stats
 
 

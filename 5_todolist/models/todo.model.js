@@ -93,15 +93,22 @@ function update(id, todoData) {
     }
 }
 
+function deleteTo(id) {
+    const indice = todosDB.findIndex(p => p.id === parseInt(id))
+    delete todosDB[indice]
+    todosDB = todosDB.filter(todo => todo !== null)
+    return todosDB;
+}
 // TODO: 
 // getByID()+
 // update()+
-// delete()
+// delete()+
 // getStats(): Cantidad de tareas completadas/no completadas y cantidad de tareas en "low"|"midium"|"high"
 
 module.exports = {
     getAll,
     create,
     getByID,
-    update
+    update,
+    deleteTo
 }

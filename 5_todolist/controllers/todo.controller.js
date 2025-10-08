@@ -29,8 +29,6 @@ function getAllTodos(req, res) {
         });
     }
 }
-
-
 /**
  * Crear nueva tarea
  * GET /api/v1/todos?completed=true&priority=high
@@ -66,11 +64,8 @@ function createTodo(req, res) {
 
 function getOnlyOne(req, res){
     try {
-
         const id = req.params.id;
         const todo = todoModel.getByID(id)
-        
-
         res.status(200).json({
             success: true,
             message: "Las tarea de la DB",
@@ -116,11 +111,30 @@ function updateTodo(req, res) {
     }
 }
 // deleteTodo()
+function deleteTodo(req, res){
+try {
+        const id = req.params.id;
+        const todoUpdated = todoModel.deleteTo(id)
+        res.status(200).json({
+            success: true,
+            message: "Las tarea de la DB",
+            data: todoUpdated
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la tarea",
+            error: error.message
+        });
+    }
+}
 // getStats
 
 module.exports = {
     getAllTodos,
     createTodo,
     getOnlyOne,
-    updateTodo
+    updateTodo,
+    deleteTodo
 }
