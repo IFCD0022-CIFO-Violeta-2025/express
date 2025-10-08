@@ -44,6 +44,15 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
+function getByID(id = 0) {
+    // filtrar por ID
+    result = {}
+    if (!isNaN(id) && id > 0)
+        result.filter(todo => todo.id === Number(id));
+
+    return result;
+}
+
 
 /**
  * Actualizar una tarea existente
@@ -52,6 +61,25 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea actualizada o null
  */
 // TODO: Implementar update(id, updateData)
+function update(id, todoDATA) {
+    const index = todosDB.findIndex(elemento => elemento.id === id )
+
+    if (index < 0 ) return ({}) // No lo hemos encontrado
+
+    const newTodoDB = {
+        id: id,
+        title: todoDATA.title,
+        completed: todoDATA.completed,
+        priority: todoDATA.completed,
+        createdAt: todoDATA.createdAt,
+        updatedAt: new Date().toISOString(),
+    }
+
+    todosDB.splice(index,1,newTodoDB) // Borramos antiguo elemento e insertamos modificado
+
+    return newTodoDB;
+}
+
 
 /**
  * Eliminar una tarea por ID
@@ -59,6 +87,25 @@ function create(todoDATA) {
  * @returns {boolean} true si se eliminó, false si no se encontró
  */
 // TODO: Implementar deleteById(id)
+function deleteID(id) {
+    const index = todosDB.findIndex(elemento => elemento.id === id )
+
+    if (index < 0 ) return (false) // No lo hemos encontrado
+
+    const newTodoDB = {
+        id: id,
+        title: todoDATA.title,
+        completed: todoDATA.completed,
+        priority: todoDATA.completed,
+        createdAt: todoDATA.createdAt,
+        updatedAt: new Date().toISOString(),
+    }
+
+    todosDB.splice(index,1,newTodoDB) // Borramos antiguo elemento e insertamos modificado
+
+    return newTodoDB;
+}
+
 
 /**
  * Obtener estadísticas de las tareas
@@ -68,9 +115,20 @@ function create(todoDATA) {
  *   - byPriority: { low: X, medium: Y, high: Z }
  */
 // TODO: Implementar getStats()
+function getStats()
+{
+    result = todosDB.map(
+        {
+
+        }
+    )
+}
 
 module.exports = {
     getAll,
-    create
+    create,
     // TODO: Exportar getById, update, deleteById, getStats
+    update,
+    deleteID,
+    getStats
 }
