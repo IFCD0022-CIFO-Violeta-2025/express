@@ -15,7 +15,7 @@ function getAll(filters = {}) {
     // filtrar por prioridad
     if (filters.priority)
         result = result.filter(todo => todo.priority === filters.priority);
-
+    
     return result;
 }
 
@@ -25,11 +25,23 @@ function getAll(filters = {}) {
  * @returns {Array} Lista de tareas
 */
 function create(todoDATA) {
+    const priorityMap = {
+        1: "low",
+        2: "medium",
+        3: "high",
+        low: "low",
+        medium: "medium",
+        high: "high"
+    };
+
+    const normalizedPriority = priorityMap[todoDATA.priority] || "medium";
+    todoDATA.priority = normalizedPriority;
+
     const newTodoDB = {
         id: currentId++,
         title: todoDATA.title,
         completed: todoDATA.completed || false, // valor defecto: false
-        priority: todoDATA.completed || "medium", // valor defecto: "medium"
+        priority: todoDATA.priority, // valor defecto: "medium"
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     }
@@ -44,6 +56,9 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
+    function getTodo(id){
+        return todosDB.find(todo => todo.id === Number(id));
+    }
 
 /**
  * Actualizar una tarea existente
@@ -51,14 +66,33 @@ function create(todoDATA) {
  * @params {Object} updateData - Datos a actualizar
  * @returns {Object|null} Tarea actualizada o null
  */
-// TODO: Implementar update(id, updateData)
+function update(id, updateData){
+    const index = todosDB.findIndex(todo => todo.id === Number(id));
+    if (index !== -1) {
+        todosDB[index] = {
+            ...todosDB[index],
+            ...updateData,
+            updatedAt: new Date().toISOString()
+        };
+        console.log(todosDB[index]);
+        return todosDB[index];
+    }
+    return null;
+}
 
 /**
  * Eliminar una tarea por ID
  * @params {number} id - ID de la tarea
  * @returns {boolean} true si se eliminó, false si no se encontró
  */
-// TODO: Implementar deleteById(id)
+function deleteById(id){
+    const index = todosDB.findIndex(todo => todo.id === Number(id));
+    if (index !== -1) {
+        todosDB.splice(index, 1);
+        return true;
+    }
+    return false;
+}
 
 /**
  * Obtener estadísticas de las tareas
@@ -69,8 +103,12 @@ function create(todoDATA) {
  */
 // TODO: Implementar getStats()
 
-module.exports = {
+module.exports = {    
+    todosDB,
     getAll,
-    create
-    // TODO: Exportar getById, update, deleteById, getStats
+    create,
+    getTodo,
+    update,
+    deleteById
+    // TODO: getStats
 }
