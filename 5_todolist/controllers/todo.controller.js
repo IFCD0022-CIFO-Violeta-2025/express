@@ -120,6 +120,24 @@ function updateTodo(req, res){
  * DELETE /api/v1/todo/:id
  */
 // TODO: Implementar deleteTodo
+function deleteTodo(req, res){
+     try {
+         
+        const deleted = todoModel.deleteById(req.params.id);
+        res.status(200).json({
+            success: true,
+            message: "Tarea eliminada",
+            data: deleted
+        })
+    
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al eliminar la tarea",
+            error: error.message
+        });
+    }
+}
 
 /**
  * Obtener estadísticas de las tareas
