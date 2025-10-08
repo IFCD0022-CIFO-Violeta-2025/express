@@ -29,7 +29,7 @@ function create(todoDATA) {
         id: currentId++,
         title: todoDATA.title,
         completed: todoDATA.completed || false, // valor defecto: false
-        priority: todoDATA.completed || "medium", // valor defecto: "medium"
+        priority: todoDATA.priority || "medium", // valor defecto: "medium"
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
     }
