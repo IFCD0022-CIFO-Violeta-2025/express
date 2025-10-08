@@ -66,12 +66,33 @@ function createTodo(req, res) {
 
 }
 
-// TODO: 
-// updateTodo()
-// deleteTodo()
-// getStats
+/**
+ * Obtener una tarea por ID
+ * GET /api/v1/todo/:id
+ */
+// TODO: Implementar getTodoById
+
+/**
+ * Actualizar una tarea por ID
+ * PUT /api/v1/todo/:id
+ */
+// TODO: Implementar updateTodo
+
+/**
+ * Eliminar una tarea por ID
+ * DELETE /api/v1/todo/:id
+ */
+// TODO: Implementar deleteTodo
+
+/**
+ * Obtener estadísticas de las tareas
+ * GET /api/v1/todos/stats
+ * Debe retornar: cantidad de tareas completadas/no completadas y cantidad por prioridad (low, medium, high)
+ */
+// TODO: Implementar getStats
 
 module.exports = {
     getAllTodos,
     createTodo
+    // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
 }

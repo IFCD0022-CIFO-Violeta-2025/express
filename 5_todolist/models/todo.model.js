@@ -38,13 +38,39 @@ function create(todoDATA) {
     return newTodoDB;
 }
 
-// TODO: 
-// getByID()
-// update()
-// delete()
-// getStats(): Cantidad de tareas completadas/no completadas y cantidad de tareas en "low"|"midium"|"high"
+/**
+ * Obtener una tarea por ID
+ * @params {number} id - ID de la tarea
+ * @returns {Object|null} Tarea encontrada o null
+ */
+// TODO: Implementar getById(id)
+
+/**
+ * Actualizar una tarea existente
+ * @params {number} id - ID de la tarea
+ * @params {Object} updateData - Datos a actualizar
+ * @returns {Object|null} Tarea actualizada o null
+ */
+// TODO: Implementar update(id, updateData)
+
+/**
+ * Eliminar una tarea por ID
+ * @params {number} id - ID de la tarea
+ * @returns {boolean} true si se eliminó, false si no se encontró
+ */
+// TODO: Implementar deleteById(id)
+
+/**
+ * Obtener estadísticas de las tareas
+ * @returns {Object} Estadísticas:
+ *   - completed: cantidad de tareas completadas
+ *   - pending: cantidad de tareas pendientes
+ *   - byPriority: { low: X, medium: Y, high: Z }
+ */
+// TODO: Implementar getStats()
 
 module.exports = {
     getAll,
     create
+    // TODO: Exportar getById, update, deleteById, getStats
 }
