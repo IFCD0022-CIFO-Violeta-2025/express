@@ -132,6 +132,7 @@ module.exports = {
     update,
     deleteTo,
     getStats
+}
 /**
  * Obtener una tarea por ID
  * @params {number} id - ID de la tarea
