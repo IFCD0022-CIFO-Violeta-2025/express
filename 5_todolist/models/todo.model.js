@@ -125,7 +125,7 @@ function getStats() {
 // getByID()+
 // update()+
 // delete()+
-// getStats(): Cantidad de tareas completadas/no completadas y cantidad de tareas en "low"|"midium"|"high"
+// getStats(): Cantidad de tareas completadas/no completadas y cantidad de tareas en "low"|"midium"|"high"+
 
 module.exports = {
     getAll,

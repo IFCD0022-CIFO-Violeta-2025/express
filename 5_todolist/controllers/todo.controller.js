@@ -78,7 +78,6 @@ function getOnlyOne(req, res){
             message: "Las tarea de la DB",
             data: todo
         });
-
     } catch (error) {
         res.status(500).json({
             success: false,
@@ -162,6 +161,5 @@ module.exports = {
     updateTodo,
     deleteTodo,
     getStatsTodo
-
 }
 

@@ -35,7 +35,7 @@ router.post("/todo", todoController.createTodo)
 
 // TODO: 
 // get :id
-router.get("tarea/:id", todoController.getOnlyOne)
+router.get("/tarea/:id", todoController.getOnlyOne)
 
 // put
 router.put("/edit/:id", todoController.updateTodo)
