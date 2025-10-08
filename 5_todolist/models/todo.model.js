@@ -59,6 +59,22 @@ function getById(id){
  * @returns {Object|null} Tarea actualizada o null
  */
 // TODO: Implementar update(id, updateData)
+function update(id, updateData){
+    const index = todosDB.findIndex(todo => todo.id === id);
+    if(index !== -1){
+        const newTodo = {
+            id: id,
+            title: updateData.title,
+            completed: updateData.completed,
+            priority: updateData.priority,
+            createdAt: updateData.createdAt,
+            updateAt: updateData.updateAt
+        }
+        todosDB[index] = newTodo;
+        return newTodo;
+    }
+    return null;
+}
 
 /**
  * Eliminar una tarea por ID
