@@ -99,6 +99,26 @@ function deleteTo(id) {
     todosDB = todosDB.filter(todo => todo !== null)
     return todosDB;
 }
+
+function getStats() {
+    const completionStats = todosDB.reduce((acc, todo) => {
+        if (todo.completed) acc.completed += 1;
+        else acc.notCompleted += 1;
+        return acc;
+    }, { completed: 0, notCompleted: 0 });
+
+    const priorityStats = todosDB.reduce((acc, todo) => {
+        if (todo.priority === "low") acc.low += 1;
+        else if (todo.priority === "medium") acc.medium += 1;
+        else if (todo.priority === "high") acc.high += 1;
+        return acc;
+    }, { low: 0, medium: 0, high: 0 });
+
+    return {
+        ...completionStats,
+        priorities: priorityStats
+    };
+}
 // TODO: 
 // getByID()+
 // update()+
@@ -110,5 +130,6 @@ module.exports = {
     create,
     getByID,
     update,
-    deleteTo
+    deleteTo,
+    getStats
 }

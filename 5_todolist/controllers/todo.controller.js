@@ -130,11 +130,29 @@ try {
     }
 }
 // getStats
+function getStatsTodo(req, res) {
+    try {
+        const todoStats = todoModel.getStats()
+        res.status(200).json({
+            success: true,
+            message: "Todos statistica",
+            data: todoStats
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener la statistica",
+            error: error.message
+        });
+    }
+}
 
 module.exports = {
     getAllTodos,
     createTodo,
     getOnlyOne,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    getStatsTodo
 }

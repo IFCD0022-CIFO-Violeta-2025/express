@@ -31,6 +31,6 @@ router.put("/edit/:id", todoController.updateTodo)
 router.delete("/delete/:id", todoController.deleteTodo)
 
 // stats
-
+router.get("/stats", todoController.getStatsTodo)
 
 module.exports = router;
