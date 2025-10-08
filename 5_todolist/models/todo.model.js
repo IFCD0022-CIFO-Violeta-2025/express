@@ -48,7 +48,7 @@ function getByID(id = 0) {
     // filtrar por ID
     result = {}
     if (!isNaN(id) && id > 0)
-        result.filter(todo => todo.id === Number(id));
+        result = todosDB.find(todo => todo.id === Number(id));
 
     return result;
 }
@@ -117,12 +117,44 @@ function deleteID(id) {
 // TODO: Implementar getStats()
 function getStats()
 {
-    result = todosDB.map(
-        {
+    let completed = 0;
+    let pending = 0;
+    let low = 0;
+    let medium = 0;
+    let high = 0;
 
+    todosDB.forEach(elem => {
+        elem.completed ? completed++ : pending++;
+        if (elem.priority === "low") low++
+        if (elem.priority === "medium") medium++
+        if (elem.priority === "high") high++
+    })
+
+    estadisticas = 
+        {
+            estadisticas : {
+                completed: completed,
+                pending: pending,
+                byPriority : {
+                    low: low,
+                    medium: medium,
+                    high: high
+                }
+            }
         }
-    )
+    return estadisticas
 }
+
+/**
+ * Devuelve booleano indicando si existe un ID
+  * @params {id: num} - id a encontrar
+ * @returns {bool} Indica si se ha encontrado la tarea de Id
+ */
+ function existeID(id)
+ {
+    const encontrado = todosDB.findIndex(elem => elem.id == Number(id)) >= 0 ?  true :  false;
+    return encontrado
+ }
 
 module.exports = {
     getAll,
@@ -130,5 +162,6 @@ module.exports = {
     // TODO: Exportar getById, update, deleteById, getStats
     update,
     deleteID,
-    getStats
+    getStats,
+    existeID
 }
