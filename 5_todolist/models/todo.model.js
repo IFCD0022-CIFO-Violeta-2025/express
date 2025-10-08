@@ -143,6 +143,9 @@ function getStats(){
 
 module.exports = {
     getAll,
-    create
-    // TODO: Exportar getById, update, deleteById, getStats
+    create,
+    getById, 
+    update, 
+    deleteById, 
+    getStats
 }
