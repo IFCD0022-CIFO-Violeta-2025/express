@@ -45,7 +45,7 @@ function create(todoDATA) {
  */
 // TODO: Implementar getById(id)
 function getById(id){
-    const todo = todoDATA.find(todo => todo.id === id);
+    const todo = todosDB.find(todo => todo.id === id);
     if(todo){
         return todo;
     }
