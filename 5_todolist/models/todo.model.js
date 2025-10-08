@@ -2,7 +2,8 @@ let todosDB = [
     {
         "id":0,
         "title":"need things",
-        "completed":false,"priority":"low",
+        "completed": true,
+        "priority": "low",
         "createdAt":"2025-10-08T08:58:09.963Z",
         "updatedAt":"2025-10-08T08:58:09.964Z"},
     {
@@ -23,14 +24,14 @@ let todosDB = [
         "id":3,
         "title":"cdscsc",
         "completed":false,
-        "priority":"low",
+        "priority":"high",
         "createdAt":"2025-10-08T09:00:07.023Z",
         "updatedAt":"2025-10-08T09:00:07.023Z"},
     {
         "id":4,
         "title":"cdsd",
         "completed":false,
-        "priority":"low",
+        "priority":"medium",
         "createdAt":"2025-10-08T09:00:12.620Z",
         "updatedAt":"2025-10-08T09:00:12.620Z"}
 ]; // sumulacion database
@@ -54,7 +55,7 @@ function getAll(filters = {}) {
     return result;
 }
 
-function getByID(id){
+function getByID(id) {
     const todo = todosDB.find(todo => todo.id === parseInt(id))
     return todo;
 }
@@ -101,6 +102,7 @@ function deleteTo(id) {
 }
 
 function getStats() {
+    console.log("getStats is called")
     const completionStats = todosDB.reduce((acc, todo) => {
         if (todo.completed) acc.completed += 1;
         else acc.notCompleted += 1;
@@ -132,40 +134,4 @@ module.exports = {
     update,
     deleteTo,
     getStats
-}
-/**
- * Obtener una tarea por ID
- * @params {number} id - ID de la tarea
- * @returns {Object|null} Tarea encontrada o null
- */
-// TODO: Implementar getById(id)
-
-/**
- * Actualizar una tarea existente
- * @params {number} id - ID de la tarea
- * @params {Object} updateData - Datos a actualizar
- * @returns {Object|null} Tarea actualizada o null
- */
-// TODO: Implementar update(id, updateData)
-
-/**
- * Eliminar una tarea por ID
- * @params {number} id - ID de la tarea
- * @returns {boolean} true si se eliminó, false si no se encontró
- */
-// TODO: Implementar deleteById(id)
-
-/**
- * Obtener estadísticas de las tareas
- * @returns {Object} Estadísticas:
- *   - completed: cantidad de tareas completadas
- *   - pending: cantidad de tareas pendientes
- *   - byPriority: { low: X, medium: Y, high: Z }
- */
-// TODO: Implementar getStats()
-
-module.exports = {
-    getAll,
-    create
-    // TODO: Exportar getById, update, deleteById, getStats
 }

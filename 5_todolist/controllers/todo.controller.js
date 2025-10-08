@@ -66,6 +66,13 @@ function getOnlyOne(req, res){
     try {
         const id = req.params.id;
         const todo = todoModel.getByID(id)
+
+        if (!todo) {
+            return res.status(404).json({
+                success: false,
+                message: "Tarea no encontrada"
+            })
+        }
         res.status(200).json({
             success: true,
             message: "Las tarea de la DB",
@@ -155,33 +162,6 @@ module.exports = {
     updateTodo,
     deleteTodo,
     getStatsTodo
-/**
- * Obtener una tarea por ID
- * GET /api/v1/todo/:id
- */
-// TODO: Implementar getTodoById
 
-/**
- * Actualizar una tarea por ID
- * PUT /api/v1/todo/:id
- */
-// TODO: Implementar updateTodo
-
-/**
- * Eliminar una tarea por ID
- * DELETE /api/v1/todo/:id
- */
-// TODO: Implementar deleteTodo
-
-/**
- * Obtener estadísticas de las tareas
- * GET /api/v1/todos/stats
- * Debe retornar: cantidad de tareas completadas/no completadas y cantidad por prioridad (low, medium, high)
- */
-// TODO: Implementar getStats
-
-module.exports = {
-    getAllTodos,
-    createTodo
-    // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
 }
+
