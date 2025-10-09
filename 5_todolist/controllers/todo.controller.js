@@ -66,26 +66,25 @@ function createTodo(req, res) {
 
 }
 
-// TODO: Implementar getTodoById
 /**
  * Obtener una tarea por ID
  * GET /api/v1/todo/:id
  */
 function getTodoById(req, res) {
-    const id = req.body.id
+    const id = req.params.id;
     try {
-        todoModel.getTodoById(id)
+        const todo = todoModel.getByID(id);
 
-        if  (todosFiltered !== 'undefined') {
+        if (todo && Object.keys(todo).length > 0) {
             res.status(200).json({
-                success: false,
+                success: true,
                 message: "Encontrado elemento de Id: " + id,
-                data: todosFiltered
+                data: todo
             });
         }
         else {
-            res.status(204).json({
-                success: true,
+            res.status(404).json({
+                success: false,
                 message: "NO se ha encontrado elemento de Id: " + id,
                 data: {}
             });

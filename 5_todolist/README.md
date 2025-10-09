@@ -103,26 +103,133 @@ POST /api/v1/todo
 }
 ```
 
-### TODO: Obtener tarea por ID
+### Obtener tarea por ID
 ```http
 GET /api/v1/todo/:id
 ```
 
-### TODO: Actualizar tarea
+**Parámetros de ruta:**
+- `id` (number): ID de la tarea a obtener
+
+**Respuesta exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Encontrado elemento de Id: 1",
+  "data": {
+    "id": 1,
+    "title": "Nueva tarea",
+    "completed": false,
+    "priority": "high",
+    "createdAt": "2025-10-08T10:00:00.000Z",
+    "updatedAt": "2025-10-08T10:00:00.000Z"
+  }
+}
+```
+
+**Respuesta no encontrado (404):**
+```json
+{
+  "success": false,
+  "message": "NO se ha encontrado elemento de Id: 1",
+  "data": {}
+}
+```
+
+### Actualizar tarea
 ```http
 PUT /api/v1/todo/:id
 ```
 
-### TODO: Eliminar tarea
+**Parámetros de ruta:**
+- `id` (number): ID de la tarea a actualizar
+
+**Body (JSON):**
+```json
+{
+  "title": "Tarea actualizada",
+  "completed": true,
+  "priority": "low"
+}
+```
+
+**Respuesta exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Actualizado elemento de Id: 1",
+  "data": {
+    "id": 1,
+    "title": "Tarea actualizada",
+    "completed": true,
+    "priority": "low",
+    "createdAt": "2025-10-08T10:00:00.000Z",
+    "updatedAt": "2025-10-08T12:30:00.000Z"
+  }
+}
+```
+
+**Respuesta no encontrado (204):**
+```json
+{
+  "success": false,
+  "message": "No se ha encontrado elemento de Id: 1",
+  "data": {}
+}
+```
+
+### Eliminar tarea
 ```http
 DELETE /api/v1/todo/:id
 ```
 
-### TODO: Obtener estadísticas
+**Parámetros de ruta:**
+- `id` (number): ID de la tarea a eliminar
+
+**Respuesta exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Eliminado el elemento de Id: 1",
+  "data": {
+    "id": 1,
+    "title": "Tarea eliminada",
+    "completed": false,
+    "priority": "medium",
+    "createdAt": "2025-10-08T10:00:00.000Z",
+    "updatedAt": "2025-10-08T10:00:00.000Z"
+  }
+}
+```
+
+**Respuesta no encontrado (204):**
+```json
+{
+  "success": false,
+  "message": "No existe el elmento de Id: 1"
+}
+```
+
+### Obtener estadísticas
 ```http
 GET /api/v1/todos/stats
 ```
 
-**Respuesta esperada:**
-- Cantidad de tareas completadas/no completadas
-- Cantidad de tareas por prioridad (low, medium, high)
+**Respuesta exitosa (200):**
+```json
+{
+  "success": true,
+  "message": "Obtenidas estadísticas de TODOs",
+  "data": {
+    "estadisticas": {
+      "completed": 5,
+      "pending": 3,
+      "byPriority": {
+        "low": 2,
+        "medium": 4,
+        "high": 2
+      }
+    }
+  }
+}
+```
