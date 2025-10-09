@@ -8,14 +8,30 @@ let currentId = 0;
 */
 
 function getAll(filters = {}) {
+    // Convertir el parámetro a booleano si está presente
+    let completedFilter;
+    if (filters.completed !== undefined && ['true', '1'].includes(filters.completed.toLowerCase()))
+        completedFilter = true;
+    else if (filters.completed !== undefined && ['false', '0'].includes(filters.completed.toLowerCase()))
+        completedFilter = false;
+
     let result = [...todosDB];
     // filtrar por estado completado
-    if (filters.completed)
-        result.filter(todo => todo.completed === filters.completed);
+    if (completedFilter!== undefined)
+        result = result.filter(todo => todo.completed === completedFilter);
+    
+    let priorityFilter;
+    if (filters.priority!== undefined && ['low', '1'].includes(filters.priority.toLowerCase()))
+        priorityFilter = 'low';
+    if (filters.priority!== undefined && ['medium','2'].includes(filters.priority.toLowerCase()))
+        priorityFilter = 'medium';
+    if (filters.priority!== undefined && ['high','3'].includes(filters.priority.toLowerCase()))
+        priorityFilter = 'high';
+    
     // filtrar por prioridad
     if (filters.priority)
         result = result.filter(todo => todo.priority === filters.priority);
-    
+
     return result;
 }
 

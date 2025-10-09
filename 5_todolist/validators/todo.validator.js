@@ -14,6 +14,7 @@ const createTODOSchema = Joi.object({
             "string.min": "El título ha de tener mas de 3 caract.",
             "string.max": "ha de tener menos de 100 caract."
         }),
+    completed: Joi.boolean(),
     priority: Joi.alternatives().try(
         Joi.number().valid(1, 2, 3),
         Joi.string().valid("low", "medium", "high")
