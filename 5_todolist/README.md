@@ -123,6 +123,32 @@ DELETE /api/v1/todo/:id
 GET /api/v1/todos/stats
 ```
 
+
+
+**Respuesta exitosa estadísticas (200):**
+```json ThunderClient
+{
+  "success": true,
+  "message": "Estadísticas de tareas",
+  "data": {
+    "completed": 1,
+    "pending": 8,
+    "byPriority": {
+      "low": 5,
+      "medium": 1,
+      "high": 2
+    }
+  }
+}
+```
+
 **Respuesta esperada:**
 - Cantidad de tareas completadas/no completadas
 - Cantidad de tareas por prioridad (low, medium, high)
+
+
+⚠️ **Nota: Patrón principal de las funciones usadas** 
+**Validar:** Revisar que los datos o parámetros recibidos sean correctos (por ejemplo, convertir el ID a número, validar filtros).
+**Buscar/filtrar:** Localizar los datos relevantes en la base de datos (o del array en simulación).
+**Modificar:** Si aplica, actualizar, crear o eliminar datos.
+**Devolver:** Retornar el resultado (el dato modificado, la lista filtrada, o una confirmación).
