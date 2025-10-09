@@ -10,11 +10,13 @@ let currentId = 0;
 function getAll(filters = {}) {
     let result = [...todosDB];
     // filtrar por estado completado
-    if (filters.completed)
-        result.filter(todo => todo.completed === filters.completed);
+    if (filters.completed) {
+         result = result.filter(todo => todo.completed === filters.completed);
+    }
     // filtrar por prioridad
-    if (filters.priority)
-        result = result.filter(todo => todo.priority === filters.priority);
+    if (filters.priority){
+          result = result.filter(todo => todo.priority === filters.priority);
+    }
 
     return result;
 }
@@ -44,6 +46,10 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
+function getById(id) {
+const tareaById = todosDB.find(tareaById => tareaById.id === id);
+return tareaById || null;
+}
 
 /**
  * Actualizar una tarea existente
@@ -52,6 +58,18 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea actualizada o null
  */
 // TODO: Implementar update(id, updateData)
+function update(id, updateData) {
+    const todoIndex = todosDB.findIndex(todo => todo.id === Number(id));
+    if (todoIndex === -1) return null;
+    const updatedTodo = {
+        ...todosDB[todoIndex],
+        ...updateData,
+        updatedAt: new Date().toISOString(),
+    };
+    todosDB[todoIndex] = updatedTodo;
+    return updatedTodo;
+}
+
 
 /**
  * Eliminar una tarea por ID
@@ -71,6 +89,8 @@ function create(todoDATA) {
 
 module.exports = {
     getAll,
-    create
+    create,
+    getById,
+    update
     // TODO: Exportar getById, update, deleteById, getStats
 }

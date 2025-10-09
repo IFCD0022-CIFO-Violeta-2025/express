@@ -48,8 +48,7 @@ function createTodo(req, res) {
         }
 
 
-
-        const newTodo = todoModel.create(req.body)
+const newTodo = todoModel.create(req.body)
 
         res.status(201).json({
             success: true,
@@ -72,11 +71,60 @@ function createTodo(req, res) {
  */
 // TODO: Implementar getTodoById
 
+function getTodoById(req, res) {
+    try {
+        const byId = parseInt(req.params.id);
+        const tareaById = todoModel.getById(byId);
+
+        res.status(200).json({
+            success: true,
+            message: "Todas las tareas con ID:" + byId,
+            data: tareaById
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al obtener las tarea por ID:" + req.params.id,
+            error: error.message
+        });
+    }
+}
+
 /**
  * Actualizar una tarea por ID
  * PUT /api/v1/todo/:id
  */
 // TODO: Implementar updateTodo
+function updateTodo(req, res) {
+    try {
+        // validacion con Joi
+        const { error } = createTODOSchema.validate(req.body);
+        if (error) {
+            return res.status(400).json({
+                success: false,
+                message: "Validacion datos Todo fallida!",
+                errors: error.details.map(error => error.message)
+            });
+        }
+
+
+const updatedTodo = todoModel.update(req.params.id, req.body)
+
+        res.status(201).json({
+            success: true,
+            message: "Tarea actualizada correctamente",
+            data: updatedTodo
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Error al acualizar la tarea",
+            error: error.message
+        });
+    }
+
+}
 
 /**
  * Eliminar una tarea por ID
@@ -93,6 +141,8 @@ function createTodo(req, res) {
 
 module.exports = {
     getAllTodos,
-    createTodo
+    createTodo,
+    getTodoById,
+    updateTodo
     // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
 }
