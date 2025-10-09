@@ -10,8 +10,14 @@ let currentId = 0;
 function getAll(filters = {}) {
     let result = [...todosDB];
     // filtrar por estado completado
-    if (filters.completed)
-        result.filter(todo => todo.completed === filters.completed);
+    if (filters.completed && (filters.completed === 'true' || filters.completed === 'false'))
+    {
+        console.log(filters.completed);
+        console.log(filters.completed==="true"?true:false);
+        result = result.filter(todo => todo.completed === (filters.completed==="true"?true:false));
+    }
+        
+    
     // filtrar por prioridad
     if (filters.priority)
         result = result.filter(todo => todo.priority === filters.priority);
