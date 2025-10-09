@@ -1,6 +1,7 @@
 let todosDB = []; // sumulacion database
 let currentId = 0;
 
+
 /**
  * Obtiene todas las tareas
  * @params {Object} filters: Filtros Opcionales (completed, priority)
@@ -11,7 +12,7 @@ function getAll(filters = {}) {
     let result = [...todosDB];
     // filtrar por estado completado
     if (filters.completed)
-        result.filter(todo => todo.completed === filters.completed);
+       result = result.filter(todo => todo.completed === filters.completed);
     // filtrar por prioridad
     if (filters.priority)
         result = result.filter(todo => todo.priority === filters.priority);
@@ -44,15 +45,24 @@ function create(todoDATA) {
  * @returns {Object|null} Tarea encontrada o null
  */
 // TODO: Implementar getById(id)
-function getByID(id = 0) {
-    // filtrar por ID
-    result = {}
-    if (!isNaN(id) && id > 0)
-        result.filter(todo => todo.id === Number(id));
+// function getByID(id = 0) {
+//     // filtrar por ID
+//     result = {}
+//     if (!isNaN(id) && id > 0)
+//         result.filter(todo => todo.id === Number(id));
 
-    return result;
+//     return result;
+// }
+
+// {
+//   "title": "Nueva tarea",
+//   "completed": false,
+//   "priority": "high"
+// }
+
+function getById(id) {
+    return todosDB.find(todo => todo.id === Number(id)) || null;
 }
-
 
 /**
  * Actualizar una tarea existente
@@ -61,23 +71,17 @@ function getByID(id = 0) {
  * @returns {Object|null} Tarea actualizada o null
  */
 // TODO: Implementar update(id, updateData)
-function update(id, todoDATA) {
-    const index = todosDB.findIndex(elemento => elemento.id === id )
+function update(id, updateData) {
+    const index = todosDB.findIndex(todo => todo.id === Number(id));
+    if (index === -1) return null;
 
-    if (index < 0 ) return ({}) // No lo hemos encontrado
+    todosDB[index] = {
+        ...todosDB[index],
+        ...updateData,
+        updatedAt: new Date().toISOString()
+    };
 
-    const newTodoDB = {
-        id: id,
-        title: todoDATA.title,
-        completed: todoDATA.completed,
-        priority: todoDATA.completed,
-        createdAt: todoDATA.createdAt,
-        updatedAt: new Date().toISOString(),
-    }
-
-    todosDB.splice(index,1,newTodoDB) // Borramos antiguo elemento e insertamos modificado
-
-    return newTodoDB;
+    return todosDB[index];
 }
 
 
@@ -127,7 +131,8 @@ function getStats()
 module.exports = {
     getAll,
     create,
-    // TODO: Exportar getById, update, deleteById, getStats
+       // TODO: Exportar getById, update, deleteById, getStats
+    getById,
     update,
     deleteID,
     getStats

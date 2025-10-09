@@ -1,12 +1,13 @@
 {
   "name": "5_todolist",
   "version": "1.0.0",
-  "description": "template modular TODO list",
+  "description": "API REST para gestionar una lista de tareas (TODO list) con funcionalidades CRUD completas y filtros opcionales. Permite crear, consultar, actualizar y eliminar tareas, además de obtener estadísticas sobre el estado y prioridad de las mismas.",
   "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "CIFO Violeta",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^17.2.3",

@@ -72,11 +72,49 @@ function createTodo(req, res) {
  */
 // TODO: Implementar getTodoById
 
+function getTodoById(req, res) {
+    const id = req.params.id;
+    const todo = todoModel.getById(id);
+
+    if (!todo) {
+        return res.status(404).json({
+            success: false,
+            message: "Tarea no encontrada"
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Tarea encontrada",
+        data: todo
+    });
+}
+
 /**
  * Actualizar una tarea por ID
  * PUT /api/v1/todo/:id
  */
 // TODO: Implementar updateTodo
+
+function updateTodo(req, res) {
+    const id = req.params.id; // Отримуємо ID з URL
+    const updateData = req.body; // Отримуємо дані з тіла запиту
+
+    const updatedTodo = todoModel.update(id, updateData); // Викликаємо модель
+
+    if (!updatedTodo) {
+        return res.status(404).json({
+            success: false,
+            message: "Tarea no encontrada para actualizar"
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Tarea actualizada correctamente",
+        data: updatedTodo
+    });
+}
 
 /**
  * Eliminar una tarea por ID
@@ -93,6 +131,8 @@ function createTodo(req, res) {
 
 module.exports = {
     getAllTodos,
-    createTodo
+    createTodo,
+    getTodoById,
+    updateTodo
     // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
 }
