@@ -5,7 +5,7 @@ const { createTODOSchema } = require("../validators/todo.validator");
  * Obtiene todas las tareas
  * GET /api/v1/todos?completed=true&priority=high
 */
-function getAllTodos(req, res) {
+async function getAllTodos(req, res) {
     try {
         const filters = {};
         if (req.query.completed)
@@ -13,7 +13,7 @@ function getAllTodos(req, res) {
         if (req.query.priority)
             filters.priority = req.query.priority;
 
-        const todosFiltered = todoModel.getAll(filters);
+        const todosFiltered = await todoModel.getAll(filters);
 
         res.status(200).json({
             success: true,
@@ -33,7 +33,7 @@ function getAllTodos(req, res) {
  * Crear nueva tarea
  * GET /api/v1/todos?completed=true&priority=high
 */
-function createTodo(req, res) {
+ function createTodo(req, res) {
     try {
         // validacion con Joi
         const { error } = createTODOSchema.validate(req.body);

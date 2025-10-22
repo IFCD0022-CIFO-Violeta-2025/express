@@ -9,6 +9,10 @@ const todoController = require("../controllers/todo.controller");
  * @access Public
 */
 
+router.get('/', (req, res) => {
+  res.send('Servidor funcionando!');
+});
+
 router.get("/todos", todoController.getAllTodos)
 
 /**
@@ -25,7 +29,7 @@ router.post("/todo", todoController.createTodo)
  * @access Public
  */
 // TODO: router.get("/todo/:id", todoController.getTodoById)
-router.get("/todo/:id", todoController.getTodoById)
+router.get("/todo/:id", todoController.getOnlyOne)
 
 /**
  * @route PUT /api/v1/todo/:id
@@ -58,9 +62,9 @@ router.delete("/todo/:id", todoController.deleteTodo)
  * @access Public
  */
 // TODO: router.get("/todos/stats", todoController.getStats)
-router.get("/todos/stats", todoController.getStats)
+//router.get("/todos/stats", todoController.getStats)
 
 // stats
-router.get("/stats", todoController.getStatsTodo)
+//router.get("/stats", todoController.getStatsTodo)
 
 module.exports = router;

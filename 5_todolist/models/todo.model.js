@@ -1,40 +1,4 @@
-let todosDB = [
-    {
-        "id":0,
-        "title":"need things",
-        "completed": true,
-        "priority": "low",
-        "createdAt":"2025-10-08T08:58:09.963Z",
-        "updatedAt":"2025-10-08T08:58:09.964Z"},
-    {
-        "id":1,
-        "title":"cfsdcdsc",
-        "completed":false,
-        "priority":"low",
-        "createdAt":"2025-10-08T08:59:52.571Z",
-        "updatedAt":"2025-10-08T08:59:52.571Z"},
-    {
-        "id":2,
-        "title":"dcdcd",
-        "completed":false,
-        "priority":"low",
-        "createdAt":"2025-10-08T08:59:58.940Z",
-        "updatedAt":"2025-10-08T08:59:58.940Z"},
-    {
-        "id":3,
-        "title":"cdscsc",
-        "completed":false,
-        "priority":"high",
-        "createdAt":"2025-10-08T09:00:07.023Z",
-        "updatedAt":"2025-10-08T09:00:07.023Z"},
-    {
-        "id":4,
-        "title":"cdsd",
-        "completed":false,
-        "priority":"medium",
-        "createdAt":"2025-10-08T09:00:12.620Z",
-        "updatedAt":"2025-10-08T09:00:12.620Z"}
-]; // sumulacion database
+const connection = require("../my_sql_connection");
 let currentId = 0;
 
 /**
@@ -43,20 +7,23 @@ let currentId = 0;
  * @returns {Array} Lista de tareas
 */
 
-function getAll(filters = {}) {
-    let result = [...todosDB];
+async function getAll(filters = {}) {
+     let [result] = await connection.query("select * from todos");
     // filtrar por estado completado
-    if (filters.completed)
-        result = result.filter(todo => todo.completed === (filters.completed === 'true'));
+    /*
+if (filters.completed !== undefined) {
+    const completedNum = filters.completed === 'true' ? 1 : 0;
+    result = result.filter(todo => todo.completed === completedNum);
+}
     // filtrar por prioridad
-    if (filters.priority)
-        result = result.filter(todo => todo.priority === filters.priority);
-
+if (filters.priority)
+        {result = result.filter(todo => todo.priority === filters.priority)}*/
     return result;
 }
 
-function getByID(id) {
+async function getByID(id) {
     const todo = todosDB.find(todo => todo.id === parseInt(id))
+    await connection.query(`insert into todos (dato) values ("${dato}")`);
     return todo;
 }
 
@@ -65,42 +32,30 @@ function getByID(id) {
  * @params {Object} todoDATA
  * @returns {Array} Lista de tareas
 */
-function create(todoDATA) {
-    const newTodoDB = {
-        id: currentId++,
-        title: todoDATA.title,
-        completed: todoDATA.completed ?? false, // valor defecto: false
-        priority: todoDATA.priority ?? "medium", // valor defecto: "medium"
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+async function create({ title, completed = 0, priority = "medium" }) {
+    try {
+        const [result] = await connection.query(
+            "INSERT INTO todos (title, completed, priority) VALUES (?, ?, ?)",
+            [title, completed, priority]
+        );
+        console.log("Insertado OK! Datos insertados:", result );
+        return { id: result.insertId, title, completed, priority };
+    } catch (error) {
+        console.log(error);
+        throw error;
     }
-
-    todosDB.push(newTodoDB);
-    return newTodoDB;
 }
 
 function update(id, todoData) {
     if(todoData) {
-        const todo = todosDB.find(todo => todo.id === parseInt(id))
-
-        if (todoData.title) todo.title = todoData.title;
-        if (todoData.completed) todo.completed = todoData.completed;
-        if (todoData.priority) todo.priority = todoData.priority
-        todo.updatedAt = new Date().toISOString();
-        
-        const indice = todosDB.findIndex(p => p.id === parseInt(id));
-        todosDB.splice(indice, 1, todo);
-        return todosDB;
+        connection.query(`update todos set dato = "${todoData}" where id = ${id}`);
     }
 }
 
 function deleteTo(id) {
-    const indice = todosDB.findIndex(p => p.id === parseInt(id))
-    delete todosDB[indice]
-    todosDB = todosDB.filter(todo => todo !== null)
-    return todosDB;
+  connection.query(`delete from todos where id = ${id}`);
 }
-
+/*
 function getStats() {
     console.log("getStats is called")
     const completionStats = todosDB.reduce((acc, todo) => {
@@ -120,7 +75,7 @@ function getStats() {
         ...completionStats,
         priorities: priorityStats
     };
-}
+}*/
 // TODO: 
 // getByID()+
 // update()+
@@ -133,5 +88,5 @@ module.exports = {
     getByID,
     update,
     deleteTo,
-    getStats
+    //getStats
 }
