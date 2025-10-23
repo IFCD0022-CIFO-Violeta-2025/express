@@ -109,7 +109,6 @@ async function getTodoById(req, res) {
  * Actualizar una tarea por ID
  * PUT /api/v1/todo/:id
  */
-// TODO: Implementar updateTodo
 async function updateTodo(req, res) {
     const { error } = createTODOSchema.validate(req.body);
     if (error) {
@@ -123,7 +122,7 @@ async function updateTodo(req, res) {
 
     const id = req.params.id
 
-    if (!todoModel.existeID(id)) {
+    if (!(await todoModel.existeID(id))) {
         res.status(204).json({
             success: false,
             message: "No se ha encontrado elemento de Id: " + id,
@@ -154,7 +153,6 @@ async function updateTodo(req, res) {
  * Eliminar una tarea por ID
  * DELETE /api/v1/todo/:id
  */
-// TODO: Implementar deleteTodo
 async function deleteTodo(req, res) {
     const id = req.params.id
 
@@ -188,7 +186,6 @@ async function deleteTodo(req, res) {
  * GET /api/v1/todos/stats
  * Debe retornar: cantidad de tareas completadas/no completadas y cantidad por prioridad (low, medium, high)
  */
-// TODO: Implementar getStats
 async function getStats(req, res) {
     try {
         const todoStats = await todoModel.getStats()
@@ -211,7 +208,6 @@ async function getStats(req, res) {
 module.exports = {
     getAllTodos,
     createTodo,
-    // TODO: Exportar getTodoById, updateTodo, deleteTodo, getStats
     getTodoById,
     updateTodo,
     deleteTodo,
