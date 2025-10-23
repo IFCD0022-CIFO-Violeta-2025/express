@@ -1,0 +1,17 @@
+{
+  "name": "5_todolist",
+  "version": "1.0.0",
+  "description": "template modular TODO list",
+  "main": "api.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "CIFO Violeta",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "mysql2": "^3.15.3"
+  }
+}

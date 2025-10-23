@@ -42,7 +42,7 @@ function getAllTodos(req, res) {
  * Crear nueva tarea
  * GET /api/v1/todos?completed=true&priority=high
 */
-function createTodo(req, res) {
+function createTodo(req, res) {  
     try {
         // validacion con Joi
         const { error } = createTODOSchema.validate(req.body);
@@ -53,8 +53,6 @@ function createTodo(req, res) {
                 errors: error.details.map(error => error.message)
             });
         }
-
-
 
         const newTodo = todoModel.create(req.body)
 
