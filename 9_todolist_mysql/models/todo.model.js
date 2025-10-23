@@ -26,7 +26,7 @@ function getAll(filters = {}) {
 async function create(todoDATA) {
     try {
         const [result] = await connex.query("insert into todos (title) values (?)", [todoDATA.title]);
-        console.log(result);
+        return result;
     } catch (error) {
         res.status(500).json({ error });
     }

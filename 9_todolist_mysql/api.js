@@ -9,7 +9,7 @@ api.use(express.json());
 api.use("/api/v1", todoRoutes);
 api.use(notFound);
 
-api.listen(config.port, () => {
+api.listen(config.api_port, () => {
     console.log(`===========================================`)
     console.log(`Servidor corriendo en puerto ${config.api_port}`)
     console.log(`URL http://localhost:${config.api_port}`)

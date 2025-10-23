@@ -42,7 +42,7 @@ function getAllTodos(req, res) {
  * Crear nueva tarea
  * GET /api/v1/todos?completed=true&priority=high
 */
-function createTodo(req, res) {  
+async function createTodo(req, res) {  
     try {
         // validacion con Joi
         const { error } = createTODOSchema.validate(req.body);
@@ -54,7 +54,7 @@ function createTodo(req, res) {
             });
         }
 
-        const newTodo = todoModel.create(req.body)
+        const newTodo = await todoModel.create(req.body)
 
         res.status(201).json({
             success: true,
