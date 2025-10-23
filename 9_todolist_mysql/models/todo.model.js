@@ -5,17 +5,28 @@ const connex = require("../mysql/connex");
  * @params {Object} filters: Filtros Opcionales (completed, priority)
  * @returns {Array} Lista de tareas
 */
+async function getAll(filters = {}) {
+    try {
+        let query = "SELECT * FROM todos WHERE 1=1";
+        const params = [];
 
-function getAll(filters = {}) {
-    let result = [...todosDB];
-    // filtrar por estado completado
-    if (filters.completed)
-        result = result.filter(todo => todo.completed === (filters.completed === 'true'));
-    // filtrar por prioridad
-    if (filters.priority)
-        result = result.filter(todo => todo.priority === filters.priority);
+        // filtrar por estado completado
+        if (filters.completed !== undefined) {
+            query += " AND completed = ?";
+            params.push(filters.completed === 'true' ? 1 : 0);
+        }
 
-    return result;
+        // filtrar por prioridad
+        if (filters.priority) {
+            query += " AND priority = ?";
+            params.push(filters.priority);
+        }
+
+        const [rows] = await connex.query(query, params);
+        return rows;
+    } catch (error) {
+        throw error;
+    }
 }
 
 /**
@@ -25,10 +36,10 @@ function getAll(filters = {}) {
 */
 async function create(todoDATA) {
     try {
-        const [result] = await connex.query("insert into todos (title) values (?)", [todoDATA.title]);
+        const [result] = await connex.query("INSERT INTO todos (title) VALUES (?)", [todoDATA.title]);
         return result;
     } catch (error) {
-        res.status(500).json({ error });
+        throw error;
     }
 }
 
@@ -37,14 +48,16 @@ async function create(todoDATA) {
  * @params {number} id - ID de la tarea
  * @returns {Object|null} Tarea encontrada o null
  */
-// TODO: Implementar getById(id)
-function getByID(id = 0) {
-    // filtrar por ID
-    result = {}
-    if (!isNaN(id) && id > 0)
-        result = todosDB.find(todo => todo.id === Number(id));
-
-    return result;
+async function getByID(id = 0) {
+    try {
+        if (!isNaN(id) && id > 0) {
+            const [rows] = await connex.query("SELECT * FROM todos WHERE id = ?", [id]);
+            return rows[0] || null;
+        }
+        return null;
+    } catch (error) {
+        throw error;
+    }
 }
 
 
@@ -54,24 +67,40 @@ function getByID(id = 0) {
  * @params {Object} updateData - Datos a actualizar
  * @returns {Object|null} Tarea actualizada o null
  */
-function update(id, todoDATA) {
-    const index = todosDB.findIndex(elemento => elemento.id === Number(id));
+async function update(id, todoDATA) {
+    try {
+        const updates = [];
+        const params = [];
 
-    if (index < 0) return ({}); // No lo hemos encontrado
+        if (todoDATA.title !== undefined) {
+            updates.push("title = ?");
+            params.push(todoDATA.title);
+        }
+        if (todoDATA.completed !== undefined) {
+            updates.push("completed = ?");
+            params.push(todoDATA.completed ? 1 : 0);
+        }
+        if (todoDATA.priority !== undefined) {
+            updates.push("priority = ?");
+            params.push(todoDATA.priority);
+        }
 
-    const oldTodo = todosDB[index];
-    const newTodoDB = {
-        id: Number(id),
-        title: todoDATA.title,
-        completed: todoDATA.completed,
-        priority: todoDATA.priority,
-        createdAt: oldTodo.createdAt,
-        updatedAt: new Date().toISOString(),
+        if (updates.length === 0) return null;
+
+        updates.push("updatedAt = NOW()");
+        params.push(id);
+
+        const query = `UPDATE todos SET ${updates.join(", ")} WHERE id = ?`;
+        const [result] = await connex.query(query, params);
+
+        if (result.affectedRows === 0) return null;
+
+        // Obtener la tarea actualizada
+        const [rows] = await connex.query("SELECT * FROM todos WHERE id = ?", [id]);
+        return rows[0];
+    } catch (error) {
+        throw error;
     }
-
-    todosDB.splice(index, 1, newTodoDB); // Borramos antiguo elemento e insertamos modificado
-
-    return newTodoDB;
 }
 
 
@@ -80,15 +109,20 @@ function update(id, todoDATA) {
  * @params {number} id - ID de la tarea
  * @returns {boolean} true si se eliminó, false si no se encontró
  */
-function deleteID(id) {
-    const index = todosDB.findIndex(elemento => elemento.id === Number(id));
+async function deleteID(id) {
+    try {
+        // Primero obtener la tarea antes de eliminarla
+        const [rows] = await connex.query("SELECT * FROM todos WHERE id = ?", [id]);
 
-    if (index < 0) return false; // No lo hemos encontrado
+        if (rows.length === 0) return false;
 
-    const deletedTodo = todosDB[index];
-    todosDB.splice(index, 1); // Eliminamos el elemento
+        const deletedTodo = rows[0];
+        await connex.query("DELETE FROM todos WHERE id = ?", [id]);
 
-    return deletedTodo;
+        return deletedTodo;
+    } catch (error) {
+        throw error;
+    }
 }
 
 
@@ -99,47 +133,57 @@ function deleteID(id) {
  *   - pending: cantidad de tareas pendientes
  *   - byPriority: { low: X, medium: Y, high: Z }
  */
-// TODO: Implementar getStats()
-function getStats()
-{
-    let completed = 0;
-    let pending = 0;
-    let low = 0;
-    let medium = 0;
-    let high = 0;
+async function getStats() {
+    try {
+        const [completedResult] = await connex.query(
+            "SELECT COUNT(*) as count FROM todos WHERE completed = 1"
+        );
+        const [pendingResult] = await connex.query(
+            "SELECT COUNT(*) as count FROM todos WHERE completed = 0"
+        );
+        const [priorityResult] = await connex.query(
+            "SELECT priority, COUNT(*) as count FROM todos GROUP BY priority"
+        );
 
-    todosDB.forEach(elem => {
-        elem.completed ? completed++ : pending++;
-        if (elem.priority === "low") low++
-        if (elem.priority === "medium") medium++
-        if (elem.priority === "high") high++
-    })
+        const byPriority = {
+            low: 0,
+            medium: 0,
+            high: 0
+        };
 
-    estadisticas = 
-        {
-            estadisticas : {
-                completed: completed,
-                pending: pending,
-                byPriority : {
-                    low: low,
-                    medium: medium,
-                    high: high
-                }
+        priorityResult.forEach(row => {
+            if (row.priority) {
+                byPriority[row.priority] = row.count;
             }
-        }
-    return estadisticas
+        });
+
+        const estadisticas = {
+            estadisticas: {
+                completed: completedResult[0].count,
+                pending: pendingResult[0].count,
+                byPriority: byPriority
+            }
+        };
+
+        return estadisticas;
+    } catch (error) {
+        throw error;
+    }
 }
 
 /**
  * Devuelve booleano indicando si existe un ID
-  * @params {id: num} - id a encontrar
+ * @params {id: num} - id a encontrar
  * @returns {bool} Indica si se ha encontrado la tarea de Id
  */
- function existeID(id)
- {
-    const encontrado = todosDB.findIndex(elem => elem.id == Number(id)) >= 0 ?  true :  false;
-    return encontrado
- }
+async function existeID(id) {
+    try {
+        const [rows] = await connex.query("SELECT id FROM todos WHERE id = ?", [id]);
+        return rows.length > 0;
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports = {
     getAll,
