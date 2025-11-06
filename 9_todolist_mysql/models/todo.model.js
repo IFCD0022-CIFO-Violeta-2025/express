@@ -7,7 +7,7 @@ const connex = require("../mysql/connex");
 */
 async function getAll(filters = {}) {
     try {
-        let query = "SELECT * FROM todos WHERE";
+        let query = "SELECT * FROM todos WHERE 1=1";
         const params = [];
 
         // filtrar por estado completado
