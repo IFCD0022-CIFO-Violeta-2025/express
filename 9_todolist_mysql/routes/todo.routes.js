@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
 router.get("/todos", todoController.getAllTodos)
 
 /**
- * @route POST /api/v1/todos
+ * @route POST /api/v1/todo
  * @desc: Crear una nueva tarea
  * @access Public
 */
